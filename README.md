@@ -5,7 +5,7 @@
 | Column                | Type   | Options                   |
 | --------------------- | ------ | ------------------------- |
 | nickname              | string | null: false               |
-| password              | string | null: false               |
+| encrypted_password    | string | null: false               |
 | email                 | string | null: false, unique: true |
 | first_name            | string | null: false               |
 | family_name           | string | null: false               |
@@ -16,32 +16,32 @@
 ### Association
 
 - has_many :items
-- has_many :purchase_history
+- has_many :purchase_histories
 
 ## items テーブル
 
-| Column          | Type       | Options                        |
-| --------------- | ---------- | ------------------------------ |
-| name            | string     | null: false                    |
-| explanation     | text       | null: false                    |
-| condition       | integer    | null: false                    |
-| category        | integer    | null: false                    |
-| price           | integer    | null: false                    |
-| seller          | references | null: false, foreign_key: true |
-| delivery_charge | integer    | null: false                    |
-| shipping_area   | integer    | null: false                    |
-| trading_status  | integer    | null: false                    |
+| Column             | Type       | Options                        |
+| ------------------ | ---------- | ------------------------------ |
+| name               | string     | null: false                    |
+| explanation        | text       | null: false                    |
+| condition_id       | integer    | null: false                    |
+| category_id        | integer    | null: false                    |
+| price              | integer    | null: false                    |
+| user               | references | null: false, foreign_key: true |
+| delivery_charge_id | integer    | null: false                    |
+| shipping_area_id   | integer    | null: false                    |
+| trading_status_id  | integer    | null: false                    |
 
 ### Association
 
-- belongs_to :users
-- has_many :purchase_history
+- belongs_to :user
+- has_many :purchase_histories
 
-## purchase_history テーブル
+## purchase_histories テーブル
 
 | Column | Type       | Options                        |
 | ------ | ---------- | ------------------------------ |
-| buyer  | references | null: false, foreign_key: true |
+| user   | references | null: false, foreign_key: true |
 | item   | references | null: false, foreign_key: true |
 
 ### Association
@@ -50,16 +50,16 @@
 - belongs_to :item
 - has_one :shipping_address
 
-## shipping_address テーブル
+## shipping_addresses テーブル
 
-| Column        | Type    | Options     |
-| ------------- | ------- | ----------- |
-| post_code     | integer | null: false |
-| prefecture    | string  | null: false |
-| city          | string  | null: false |
-| house_number  | string  | null: false |
-| building_name | string  |             |
-| phone_number  | integer | null: false |
+| Column           | Type    | Options     |
+| ---------------- | ------- | ----------- |
+| post_code        | string  | null: false |
+| shipping_area_id | string  | null: false |
+| city             | string  | null: false |
+| house_number     | string  | null: false |
+| building_name    | string  |             |
+| phone_number     | string  | null: false |
 
 ### Association
 
