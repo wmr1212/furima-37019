@@ -35,7 +35,7 @@
 ### Association
 
 - belongs_to :user
-- has_many :purchase_histories
+- has_one :purchase_history
 
 ## purchase_histories テーブル
 
@@ -52,14 +52,15 @@
 
 ## shipping_addresses テーブル
 
-| Column           | Type    | Options     |
-| ---------------- | ------- | ----------- |
-| post_code        | string  | null: false |
-| shipping_area_id | string  | null: false |
-| city             | string  | null: false |
-| house_number     | string  | null: false |
-| building_name    | string  |             |
-| phone_number     | string  | null: false |
+| Column           | Type       | Options                        |
+| ---------------- | ---------- | ------------------------------ |
+| post_code        | string     | null: false                    |
+| shipping_area_id | integer    | null: false                    |
+| city             | string     | null: false                    |
+| house_number     | string     | null: false                    |
+| building_name    | string     |                                |
+| phone_number     | string     | null: false                    |
+| user             | references | null: false, foreign_key: true |
 
 ### Association
 
