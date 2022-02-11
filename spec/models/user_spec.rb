@@ -28,14 +28,32 @@ RSpec.describe User, type: :model do
         expect(@user.errors.full_messages).to include("Password can't be blank")
       end
       it "passwordが5文字以内では登録できない" do
-        @user.password = '12345'
-        @user.password_confirmation = '12345'
+        @user.password = '123ab'
+        @user.password_confirmation = '123ab'
         @user.valid?
         expect(@user.errors.full_messages).to include("Password is too short (minimum is 6 characters)")
       end
-      it "passwordとpassword_confirmationが不一致では登録できない" do
+      it "英字のみのpasswordでは登録できない" do
+        @user.password = 'aaaaaa'
+        @user.password_confirmation = 'aaaaaa'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password は半角英数を両方含む必要があり、全角文字は使用できません")
+      end
+      it "数字のみのpasswordでは登録できない" do
         @user.password = '123456'
-        @user.password_confirmation = '1234567'
+        @user.password_confirmation = '123456'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password は半角英数を両方含む必要があり、全角文字は使用できません")
+      end
+      it "全角文字を含むpasswordは登録できません" do
+        @user.password = '漢字123ab'
+        @user.password_confirmation = '漢字123ab'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password は半角英数を両方含む必要があり、全角文字は使用できません")
+      end
+      it "passwordとpassword_confirmationが不一致では登録できない" do
+        @user.password = '123abc'
+        @user.password_confirmation = '1234abc'
         @user.valid?
         expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
       end
@@ -79,6 +97,11 @@ RSpec.describe User, type: :model do
         @user.first_name_kana = '宏樹'
         @user.valid?
         expect(@user.errors.full_messages).to include("First name kana は全角カナで入力して下さい")
+      end
+      it "family_name_kanaが空では登録できない" do
+        @user.family_name_kana = ''
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Family name kana can't be blank")
       end
       it "family_name_kanaは全角カタカナでなければ登録できない" do
         @user.family_name_kana = '田中'

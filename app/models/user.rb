@@ -7,6 +7,12 @@ class User < ApplicationRecord
   has_many :items
   has_many :purchase_histories
 
+  VALID_PASSWORD_REGEX = /\A(?=.*?[a-z])(?=.*?[\d])[a-z\d]+\z/i.freeze
+  validates :password, format: { 
+    with: VALID_PASSWORD_REGEX, 
+    message: "は半角英数を両方含む必要があり、全角文字は使用できません"
+    }
+
   validates :nickname, presence: true
   validates :first_name, presence: true, format: {
     with: /\A(?:\p{Hiragana}|\p{Katakana}|[ー－]|[一-龠々])+\z/,
