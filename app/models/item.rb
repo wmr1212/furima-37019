@@ -19,6 +19,12 @@ class Item < ApplicationRecord
     },
     format: { with: /\A[0-9]+\z/ }
 
-  validates :category_id, :condition_id, :delivery_charge_id, :shipping_area_id, :trading_status_id, numericality: { other_than: 1 , message: "can't be blank"}
+  validates :category_id, numericality: { other_than: 1 , message: "can't be blank"}
+  validates :condition_id, numericality: { other_than: 1 , message: "can't be blank"}
+  validates :delivery_charge_id, numericality: { other_than: 1 , message: "can't be blank"}
+  validates :shipping_area_id, numericality: { other_than: 1 , message: "can't be blank"}
+  validates :trading_status_id, numericality: { other_than: 1 , message: "can't be blank"}
+
+  validates :image, presence: true
 
 end

@@ -1,4 +1,4 @@
-class Trading_status < ActiveHash::Base
+class TradingStatus < ActiveHash::Base
   self.data = [
     { id: 1, name: '--' },
     { id: 2, name: '12日で発送' },
