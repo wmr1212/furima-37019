@@ -1,17 +1,22 @@
 class PurchaseHistory
   include ActiveModel::Model
-  attr_accessor :user_id, :item_id, :delivery_charge_id, :post_code, :city, :house_number, :building_name, :phone_number
+  attr_accessor :user_id, :item_id, :shipping_area_id, :post_code, :city, :house_number, :building_name, :phone_number
 
   with_options presence: true do
 
     validates :user_id
 
-    validates :post_code, format: {with: /\A\d{3}[-]\d{4}\z/ }
+    validates :post_code, format: {
+      with: /\A\d{3}[-]\d{4}\z/,
+      message: "is invalid. Enter it as follows (e.g. 123-4567)" }
     validates :shipping_area_id, numericality: { other_than: 1 , message: "can't be blank"}
     validates :city
     validates :house_number
-    validates :phone_number, presence: true, numericality: { with: /\A\d{10,11}\z/ }
+    validates :phone_number, numericality: {}
   end
+    validates :phone_number, numericality:{
+      with: /\A\d{10,11}\z/,
+      message: "is invalid. Input only number"}
 
   def save
     order = Oder.create(user_id: user_id, item_id: item_id)

@@ -6,6 +6,7 @@ class OrdersController < ApplicationController
   end
 
   def create
+    @item = Item.find(params[:item_id])
     @purchase_history = PurchaseHistory.new(order_params)
     if @purchase_history.valid?
       @purchase_history.save
