@@ -7,7 +7,7 @@ RSpec.describe PurchaseHistory, type: :model do
 
   describe '商品の購入' do
     context '商品が購入できる場合' do
-      it "post_codeとshipping_area_idとcityとhouse_numberとphone_numberがあれば購入できる" do
+      it "post_codeとshipping_area_idとcityとhouse_numberとphone_numberとtokenがあれば購入できる" do
         expect(@purchase_history).to be_valid
       end
     end
@@ -56,6 +56,11 @@ RSpec.describe PurchaseHistory, type: :model do
         @purchase_history.phone_number = 190123456
         @purchase_history.valid?
         expect(@purchase_history.errors.full_messages).to include("Phone number is too short (minimum is 10 characters)")
+      end
+      it "tokenが空では保存されない" do
+        @purchase_history.token = ""
+        @purchase_history.valid?
+        expect(@purchase_history.errors.full_messages).to include("Token can't be blank")
       end
     end
   end
