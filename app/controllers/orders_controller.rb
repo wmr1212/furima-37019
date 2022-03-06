@@ -1,4 +1,7 @@
 class OrdersController < ApplicationController
+  
+  before_action :authenticate_user!
+  before_action :soldout_confimation
 
   def index
     @item = Item.find(params[:item_id])
@@ -34,6 +37,10 @@ class OrdersController < ApplicationController
       card: order_params[:token],
       currency: 'jpy'
     )
+  end
+
+  def soldout_confimation
+    redirect_to root_path unless @item.order.blank?
   end
 
 end
