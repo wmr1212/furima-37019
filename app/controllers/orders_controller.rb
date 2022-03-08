@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
-  
-  before_action :authenticate_user!
-  before_action :soldout_confimation
+
+  before_action :authenticate_user!, only: [:index, :create]
+  before_action :soldout_confimation, only: [:index, :create]
 
   def index
     @item = Item.find(params[:item_id])
@@ -40,7 +40,7 @@ class OrdersController < ApplicationController
   end
 
   def soldout_confimation
-    redirect_to root_path unless @item.order.blank?
+    redirect_to root_path unless @order.blank?
   end
 
 end
