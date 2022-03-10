@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe PurchaseHistory, type: :model do
   before do
-    @user = FactoryBot.build(:user)
-    @item = FactoryBot.build(:item)
-    @purchase_history = FactoryBot.build(:purchase_history, user_id: FactoryBot.build(:user), item_id: FactoryBot.build(:item))
+    user = FactoryBot.create(:user)
+    item = FactoryBot.create(:item)
+    @purchase_history = FactoryBot.build(:purchase_history, user_id: user.id, item_id: item.id)
     sleep 1
   end
 
