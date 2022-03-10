@@ -2,12 +2,19 @@ require 'rails_helper'
 
 RSpec.describe PurchaseHistory, type: :model do
   before do
-    @purchase_history = FactoryBot.build(:purchase_history)
+    @user = FactoryBot.build(:user)
+    @item = FactoryBot.build(:item)
+    @purchase_history = FactoryBot.build(:purchase_history, user_id: FactoryBot.build(:user), item_id: FactoryBot.build(:item))
+    sleep 1
   end
 
   describe '商品の購入' do
     context '商品が購入できる場合' do
       it "post_codeとshipping_area_idとcityとhouse_numberとphone_numberとtokenがあれば購入できる" do
+        expect(@purchase_history).to be_valid
+      end
+      it "building_nameが無くても購入できる" do
+        @building_name = ''
         expect(@purchase_history).to be_valid
       end
     end
@@ -61,6 +68,16 @@ RSpec.describe PurchaseHistory, type: :model do
         @purchase_history.token = ""
         @purchase_history.valid?
         expect(@purchase_history.errors.full_messages).to include("Token can't be blank")
+      end
+      it "user_idが空では保存されない" do
+        @purchase_history.user_id = ''
+        @purchase_history.valid?
+        expect(@purchase_history.errors.full_messages).to include("User can't be blank")
+      end
+      it "item_idが空では保存されない" do
+        @purchase_history.item_id = ''
+        @purchase_history.valid?
+        expect(@purchase_history.errors.full_messages).to include("Item can't be blank")
       end
     end
   end
