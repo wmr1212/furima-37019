@@ -5,7 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :items
-  has_many :purchase_histories
+  has_many :orders
 
   VALID_PASSWORD_REGEX = /\A(?=.*?[a-z])(?=.*?[\d])[a-z\d]+\z/i.freeze
   validates :password, format: { 
@@ -31,4 +31,5 @@ class User < ApplicationRecord
     message: 'は全角カナで入力して下さい'
     }
   validates :birth_date, presence: true
+
 end
