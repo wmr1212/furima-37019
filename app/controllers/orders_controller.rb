@@ -1,15 +1,15 @@
 class OrdersController < ApplicationController
 
   before_action :authenticate_user!, only: [:index, :create]
+  before_action :set_item, only: [:index, :create]
+  before_action :contributor_confirmation, only: [:index, :create]
   before_action :soldout_confimation, only: [:index, :create]
 
   def index
-    @item = Item.find(params[:item_id])
     @purchase_history = PurchaseHistory.new
   end
 
   def create
-    @item = Item.find(params[:item_id])
     @purchase_history = PurchaseHistory.new(order_params)
     if @purchase_history.valid?
       pay_item
@@ -40,7 +40,15 @@ class OrdersController < ApplicationController
   end
 
   def soldout_confimation
-    redirect_to root_path unless @order.blank?
+    redirect_to root_path unless @item.order.blank?
+  end
+
+  def set_item
+    @item = Item.find(params[:item_id])
+  end
+
+  def contributor_confirmation
+    redirect_to root_path unless current_user != @item.user
   end
 
 end
